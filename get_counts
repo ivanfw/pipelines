@@ -1,0 +1,11 @@
+#!/bin/bash --login
+#$ -cwd
+#$ -e ./err
+#$ -o ./out
+#$ -pe smp.pe 16 
+
+module load apps/intel-18.0/subread/2.0.0
+
+ref=./rds-asg/refs/GRCh38.p13_genomic.gtf
+
+featureCounts -T 16 -t exon -g gene_id -a $ref -o "./rds-asg/petropoulos_counts.txt" ./scratch/*.bam

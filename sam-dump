@@ -1,0 +1,9 @@
+#!/bin/bash --login
+#$ -cwd
+#$ -t 1-125
+
+module load apps/binapps/sra/2.10.7
+module load apps/samtools/1.9
+
+acc=$(sed "${SGE_TASK_ID}q;d" ./my-rds-asg/accessions)
+sam-dump $acc | samtools view -bS - > "./my-rds-asg/${acc}.bam" 

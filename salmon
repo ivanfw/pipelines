@@ -1,0 +1,11 @@
+#!/bin/bash --login
+#$ -cwd
+#$ -e err
+#$ -o out
+#$ -pe smp.pe 8
+
+module load apps/bioinf
+module load apps/binapps/salmon
+
+salmon quant --help
+salmon quant -l A --validateMappings -i rds-asg/salmon_index -r <(gunzip -c rds-asg/reena_fastq/*) -o transcripts_quant

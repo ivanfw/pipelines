@@ -1,0 +1,10 @@
+#!/bin/bash --login
+#$ -cwd
+#$ -e ./err
+#$ -o ./out
+#$ -t 1-125
+
+module load apps/python/htseq
+
+acc=$(sed "${SGE_TASK_ID}q;d" ./my-rds-asg/accessions)
+htseq-count -f bam "./my-rds-asg/${acc}.bam" ./my-rds-asg/ref/GRCh38.p13.gff > "./my-rds-asg/counts/${acc}.csv"

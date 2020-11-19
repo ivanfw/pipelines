@@ -1,0 +1,14 @@
+#!/bin/bash --login
+#$ -cwd
+#$ -e ./err/call
+#$ -o ./out/call
+#$ -t 1-1529
+
+module load apps/binapps/anaconda3/2020.07
+module load tools/env/proxy2
+
+conda activate snpeff
+
+acc=$(sed "${SGE_TASK_ID}q;d" ./petropoulos_accessions)
+
+java -Xmx4g -jar ".conda/envs/snpeff/share/snpeff-5.0-0/snpEff.jar" -v GRCh38.99 "rds-asg/petropoulos_snv/${acc}-calls.vcf.gz" > "rds-asg/petropoulos_snv/${acc}.ann.vcf.gz"

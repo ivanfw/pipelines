@@ -1,0 +1,17 @@
+#!/bin/bash --login
+#$ -cwd
+#$ -e ./err/petropoulos_bam
+#$ -o ./out/petropoulos_bam
+#$ -t 1-1529
+
+# number of tasks to be updated once the number of samples are counted
+
+module load apps/samtools/1.9
+
+sample_name=$(sed "${SGE_TASK_ID}q;d" ./petropoulos_accessions)
+
+sam="./scratch/petropoulos_sam/${sample_name}.sam"
+sorted="./scratch/petropoulos_bam/${sample_name}.bam"
+
+samtools sort -l 9 -o $sorted $sam
+samtools index $sorted

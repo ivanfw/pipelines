@@ -1,0 +1,10 @@
+#!/bin/bash --login
+#$ -cwd
+#$ -e ./err
+#$ -o ./out
+
+# number of tasks to be updated once the number of samples are counted
+
+ls -1  *.txt | parallel 'cat {} | sed '1d' | cut -f7 {} > {/.}_clean.txt' 
+ls -1  *.txt | head -1 | xargs cut -f1 > genes.txt
+paste genes.txt *_clean.txt > output.txt

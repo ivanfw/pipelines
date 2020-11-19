@@ -1,0 +1,11 @@
+#!/bin/bash --login
+#$ -cwd
+#$ -e ./err/call
+#$ -o ./out/call
+#$ -t 1-1529
+
+module load apps/binapps/gatk/4.1.8.0
+
+acc=$(sed "${SGE_TASK_ID}q;d" ./petropoulos_accessions)
+
+gatk HaplotypeCaller --java-options '-XX:ConcGCThreads=1 -Xmx4G -XX:ParallelGCThreads=1 -XX:ParallelCMSThreads=1' -R rds-asg/refs/Homo_sapiens.GRCh38.dna.primary_assembly.fa -I "scratch/tmp/${acc}-split.bam" -O "scratch/vcf/${acc}.g.vcf.gz" -ERC GVCF -OVI 

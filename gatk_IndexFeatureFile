@@ -1,0 +1,15 @@
+#!/bin/bash --login
+#$ -cwd
+#$ -e ./err/call
+#$ -o ./out/call
+#$ -t 1-1529
+
+module load apps/binapps/gatk/4.1.8.0
+
+acc=$(sed "${SGE_TASK_ID}q;d" ./petropoulos_accessions)
+
+#gatk AddOrReplaceReadGroups -I "scratch/petropoulos_bam/${acc}.bam" -O "scratch/tmp/${acc}-rg.bam" -LB petropoulos -PL ILLUMINA -PU petropoulos -SM $acc
+#gatk MarkDuplicates -I "scratch/tmp/${acc}-rg.bam" -O "scratch/tmp/${acc}-marked.bam" -M "scratch/tmp/${acc}_dup_metrics" -ASO coordinate
+#gatk SplitNCigarReads -R rds-asg/refs/Homo_sapiens.GRCh38.dna.primary_assembly.fa -I "scratch/tmp/${acc}-marked.bam" -O "scratch/tmp/${acc}-split.bam"
+#gatk HaplotypeCaller -R rds-asg/refs/Homo_sapiens.GRCh38.dna.primary_assembly.fa -I "scratch/tmp/${acc}-split.bam" -O "scratch/tmp/${acc}-calls.vcf.gz" -bamout "scratch/tmp/${acc}-realigned.bam"
+gatk IndexFeatureFile -I "rds-asg/petropoulos_snv/${acc}.vcf.gz"

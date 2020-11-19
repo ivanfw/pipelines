@@ -1,0 +1,13 @@
+#!/bin/bash --login
+#$ -cwd
+#$ -e ./err
+#$ -o ./out
+#$ -pe smp.pe 16 
+
+module load apps/intel-18.0/subread/2.0.0
+
+ref="rds-asg/refs/hg38_ensembl_gtf/hg38.gtf.gz"
+
+list=(scratch/peter_bam/*)
+
+featureCounts -p -T 16 -t exon -g gene_id -a $ref --tmpDir "scratch" -o "rds-asg/peter_counts.txt" "${list[@]}"

@@ -1,0 +1,19 @@
+#!/bin/bash --login
+#$ -cwd
+#$ -e ./err
+#$ -o ./out
+#$ -t 1-125
+
+# number of tasks to be updated once the number of samples are counted
+
+module load apps/hisat2
+
+sample_name=$(sed "${SGE_TASK_ID}q;d" ./my-rds-asg/samples)
+
+fastq_file="./rds-asg/zhou_fastq/${sample_name}.fq.gz"
+
+awk -F $'\t' ' { t = $1; $1 = $2; $2 = t; print; } ' OFS=$'\t' $list_file > $fixed_list_file
+
+zcat $fastq_file | fastx_barcode_splitter.pl --bcfile $fixed_list_file --prefix $prefix --suffix ".fq"
+
+rm $fastq_file

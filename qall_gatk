@@ -1,0 +1,18 @@
+#!/bin/bash
+
+qsub gatk_AddOrReplaceReadGroups
+jobid=$(qstat | tail -n 1 | awk -F" " '{print $1}')
+
+qsub -hold_jid $jobid gatk_MarkDuplicates
+jobid=$(qstat | tail -n 1 | awk -F" " '{print $1}')
+
+qsub -hold_jid $jobid gatk_BaseRecalibrator
+jobid=$(qstat | tail -n 1 | awk -F" " '{print $1}')
+
+qsub -hold_jid $jobid gatk_SplitNCigarReads
+jobid=$(qstat | tail -n 1 | awk -F" " '{print $1}')
+
+qsub -hold_jid $jobid gatk_HaplotypeCaller
+jobid=$(qstat | tail -n 1 | awk -F" " '{print $1}')
+
+#qsub -hold_jid $jobid gatk_IndexFeatureFile

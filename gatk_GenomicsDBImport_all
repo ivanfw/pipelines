@@ -1,0 +1,15 @@
+#!/bin/bash --login
+#$ -cwd
+#$ -e ./err/call
+#$ -o ./out/call
+#$ -pe smp.pe 16
+
+module load apps/binapps/gatk/4.1.8.0
+
+unset _JAVA_OPTIONS
+
+#chr=$(sed "${SGE_TASK_ID}q;d" ./chromosomes.list)
+
+rm -rf "scratch/gdb"
+
+gatk GenomicsDBImport --java-options '-Xmx48G' --genomicsdb-workspace-path "scratch/gdb" -L chromosomes.list --tmp-dir scratch/tmp --sample-name-map vcf_list --max-num-intervals-to-import-in-parallel 5 --batch-size 14 --reader-threads 14 

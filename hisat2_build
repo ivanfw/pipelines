@@ -1,0 +1,9 @@
+#!/bin/bash --login
+#$ -cwd
+#$ -e ./err
+#$ -o ./out
+
+module load apps/hisat2
+
+zcat rds-asg/refs/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz > rds-asg/refs/Homo_sapiens.GRCh38.dna.primary_assembly.fa
+hisat2-build rds-asg/refs/Homo_sapiens.GRCh38.dna.primary_assembly.fa rds-asg/refs/GRCh38

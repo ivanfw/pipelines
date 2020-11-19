@@ -1,0 +1,19 @@
+#!/bin/bash --login
+#$ -cwd
+#$ -e ./err/align
+#$ -o ./out/align
+#$ -t 1-10969
+
+# number of tasks to be updated once the number of samples are counted
+
+module load apps/hisat2
+
+export HISAT2_INDEXES="rds-asg/hisat2_indexes/grch38"
+
+acc=$(sed "${SGE_TASK_ID}q;d" ./zhou_files)
+
+fastq_file="./rds-asg/zhou_demultiplexed/${acc}"
+
+name=$(echo "$acc" | cut -f 1 -d '.')
+
+zcat $fastq_file | hisat2-align-l -x genome -U - -S "scratch/zhou_sam/${name}.sam"

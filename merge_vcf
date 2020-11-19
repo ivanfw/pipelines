@@ -1,0 +1,17 @@
+#!/bin/bash --login
+#$ -cwd
+#$ -e ./err/call
+#$ -o ./out/call
+
+module load apps/binapps/gatk/4.1.8.0
+
+
+#gatk AddOrReplaceReadGroups -I scratch/bam/$acc.bam -O scratch/tmp/$acc-rg.bam -LB petropoulos -PL ILLUMINA -PU petropoulos -SM $acc
+#gatk MarkDuplicates -I "scratch/tmp/${acc}-rg.bam" -O "scratch/tmp/${acc}-marked.bam" -M "scratch/tmp/${acc}_dup_metrics"
+#gatk SplitNCigarReads -R rds-asg/refs/GRCh38.dna.alt.fa -I "scratch/tmp/${acc}-marked.bam" -O "scratch/tmp/${acc}-split.bam"
+#gatk HaplotypeCaller -R rds-asg/refs/GRCh38.dna.alt.fa -I "scratch/tmp/${acc}-split.bam" -O "scratch/tmp/${acc}-calls.vcf.gz" -bamout "scratch/tmp/${acc}-realigned.bam"
+
+gatk GenomicsDBImport --genomicsdb-workspace-path scratch/gdb -L CHR_HG76_PATCH --batch-size 50 --sample-name-map vcf.map --tmp-dir scratch/gdbtmp
+ 
+#gatk GenotypeGVCFs -R rds-asg/refs/GRCh38.dna.alt.fa -V gendb://scratch/gdb -O scratch/merged.vcf --tmp-dir scratch/gdbtmp
+#gatk CombineGVCFs -R rds-asg/refs/GRCh38.dna.alt.fa -V vcf.list --read-index index.list -O scratch/merged.vcf

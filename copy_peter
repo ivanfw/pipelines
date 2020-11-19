@@ -1,0 +1,9 @@
+#!/bin/bash --login
+#$ -cwd
+#$ -e ./err/compress
+#$ -o ./out/compress
+
+# number of tasks to be updated once the number of samples are counted
+
+cp /mnt/cifs-mhs01/pclayton-pec/mbax2iw2/Peter_Ruane_clean_sequences rds-asg/peter_fastq
+

@@ -1,0 +1,5 @@
+gatk_AddOrReplaceReadGroups
+gatk_HaplotypeCaller
+gatk_IndexFeatureFile
+gatk_MarkDuplicates
+gatk_SplitNCigarReads

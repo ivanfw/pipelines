@@ -1,0 +1,6 @@
+#!/bin/bash --login
+#$ -cwd
+#$ -e ./my-rds-asg/err
+#$ -o ./my-rds-asg/out
+
+tar czf rds-asg/petropoulos_counts.tar.gz rds-asg/petropoulos_counts

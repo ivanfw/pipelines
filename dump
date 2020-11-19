@@ -1,0 +1,19 @@
+#!/bin/bash --login
+#$ -cwd
+#$ -e ./my-rds-asg/err
+#$ -o ./my-rds-asg/out
+#$ -t 1-125
+
+module load apps/binapps/sra/2.10.7
+module load tools/env/proxy
+
+err="./my-rds-asg/err/fastq-dump.e1322559.${SGE_TASK_ID}"
+
+if [ ! -f $err ]; then
+	exit 0
+fi
+
+acc=$(sed "${SGE_TASK_ID}q;d" ./my-rds-asg/accessions)
+# No prefetch due to limited disk space
+#prefetch --max-size 100000000000 $acc
+fastq-dump --gzip --outdir ./rds-asg/zhou_fastq $acc

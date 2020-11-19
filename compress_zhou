@@ -1,0 +1,13 @@
+#!/bin/bash --login
+#$ -cwd
+#$ -e ./err/compress
+#$ -o ./out/compress
+#$ -t 1-10039
+
+# number of tasks to be updated once the number of samples are counted
+
+acc=$(sed "${SGE_TASK_ID}q;d" ./zhou_files)
+
+cd scratch/b
+
+gzip $acc

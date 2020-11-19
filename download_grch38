@@ -1,0 +1,7 @@
+#!/bin/bash --login
+#$ -cwd
+
+module load tools/env/proxy2
+
+cd rds-asg/salmon_indexes
+wget http://refgenomes.databio.org/v2/asset/hg38/salmon_sa_index/archive

@@ -1,0 +1,9 @@
+#!/bin/bash --login
+#$ -cwd
+#$ -e ./err/compress
+#$ -o ./out/compress
+
+# number of tasks to be updated once the number of samples are counted
+
+mv scratch/zhou_sam rds-asg/zhou_sam
+

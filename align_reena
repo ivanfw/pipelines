@@ -1,0 +1,20 @@
+#!/bin/bash --login
+#$ -cwd
+#$ -e ./err/align
+#$ -o ./out/align
+#$ -t 1-31
+
+# number of tasks to be updated once the number of samples are counted
+
+module load apps/hisat2
+module load apps/samtools/1.9
+
+export HISAT2_INDEXES="rds-asg/refs/hg38_hisat2_index"
+
+acc=$(sed "${SGE_TASK_ID}q;d" ./reena_files)
+
+file1="./rds-asg/reena_fastq/${acc}_R1_001.fastq.gz"
+file2="./rds-asg/reena_fastq/${acc}_R2_001.fastq.gz"
+
+hisat2 -x hg38 -1 "${file1}" -2 "${file2}" -S "scratch/reena_sam/${acc}.sam"
+samtools sort -l 9 -o "scratch/reena_bam/${acc}.bam" "scratch/reena_sam/${acc}.sam"

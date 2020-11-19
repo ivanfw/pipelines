@@ -1,0 +1,11 @@
+#!/bin/bash --login
+#$ -cwd
+#$ -e ./err/call
+#$ -o ./out/call
+
+module load apps/bioinf
+module load apps/gcc/bcftools/1.9
+
+ulimit -u 3000
+bcftools merge -l vcf.list > scratch/merged.vcf
+

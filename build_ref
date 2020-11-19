@@ -1,0 +1,9 @@
+#!/bin/bash --login
+#$ -cwd
+#$ -e ./my-rds-asg/err
+#$ -o ./my-rds-asg/out
+
+module load tools/env/proxy2
+module load apps/hisat2
+
+./rds-asg/hisat2_indexes/grch38_snp/make_grch38_snp.sh

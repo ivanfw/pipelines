@@ -1,0 +1,7 @@
+#!/bin/bash --login
+#$ -cwd
+#$ -e ./err
+#$ -o ./out
+
+cd rds-asg
+tar czf petropoulos_bam.tar.gz petropoulos_bam

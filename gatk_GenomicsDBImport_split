@@ -1,0 +1,14 @@
+#!/bin/bash --login
+#$ -cwd
+#$ -e ./err/call
+#$ -o ./out/call
+#$ -pe smp.pe 32
+#$ -l mem1500
+
+module load apps/binapps/gatk/4.1.8.0
+
+unset _JAVA_OPTIONS
+
+chr=$(sed "${SGE_TASK_ID}q;d" ./chromosomes.list)
+
+gatk GenomicsDBImport --java-options '-Xmx1024g -XX:+UseConcMarkSweepGC' --genomicsdb-workspace-path "scratch/gdb${chr}" -L $chr --tmp-dir scratch/tmp --sample-name-map sample_map

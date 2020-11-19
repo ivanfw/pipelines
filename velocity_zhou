@@ -1,0 +1,14 @@
+#!/bin/bash --login
+#$ -cwd
+#$ -e ./err/velocity
+#$ -o ./out/velocity
+#$ -t 1-1
+
+# number of tasks to be updated once the number of samples are counted
+
+acc=$(sed "${SGE_TASK_ID}q;d" ./zhou_files)
+
+name=$(echo "$acc" | cut -f 1 -d '.')
+sam="./scratch/zhou_sam/${name}.sam"
+
+velocyto run-smartseq2 -vvv -o scratch/loom $sam rds-asg/refs/GRCh38.100.chr.gtf
